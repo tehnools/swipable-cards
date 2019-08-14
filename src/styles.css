@@ -1,0 +1,38 @@
+body {
+  background: var(--secondary-color);
+  position: fixed;
+  /* overflow: hidden; */
+  width: 100vw;
+  height: 100vh;
+}
+
+.App {
+  font-family: sans-serif;
+  text-align: center;
+}
+
+.pot {
+  position: absolute;
+  width: 100vw;
+  height: 80vh;
+  will-change: transform;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pot .card {
+  position: absolute;
+  padding: 5px;
+  background-color: white;
+  background-size: auto 85%;
+  background-repeat: no-repeat;
+  background-position: center center;
+  width: 300px;
+  margin-top: 0;
+  max-width: 300px;
+  min-height: 330px;
+  max-height: 570px;
+  will-change: transform;
+  border-radius: 10px;
+}
