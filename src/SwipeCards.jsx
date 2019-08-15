@@ -1,8 +1,7 @@
 import React from "react";
 
-function SwipeCards({ children }) {
-  const onEnd = () => f => f;
-  return <>{children.length > 0 ? children : onEnd()}</>;
+function SwipeCards({ children, onEnd }) {
+  return <>{children ? children : onEnd()}</>;
 }
 
 export default SwipeCards;

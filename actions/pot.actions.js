@@ -19,8 +19,7 @@ export function getCardsPending() {
     type: GET_POTS_PENDING
   };
 }
-
-export function getCardsSucess() {
+export function getCardsSuccess() {
   return {
     type: GET_POTS_SUCCESS,
     cards

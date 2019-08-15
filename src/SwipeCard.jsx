@@ -1,21 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { Card } from "semantic-ui-react";
-import { animated, useSpring } from "react-spring";
+import { animated } from "react-spring";
 
 function SwipeCard({ name, onSwipeLeft, onSwipeRight }) {
   const [coord, setCoord] = useState({});
   const [poo, setPoo] = useState();
   const [endCoord, setEndCoord] = useState({ x: 0, y: 0 });
 
-  const swipeRight = useSpring({
-    transform: `translate(${endCoord.x + 9999}px, ${endCoord.y}px)`,
-    from: { transform: `translate(${endCoord.x}px, ${endCoord.y}px)` }
-  });
+  // const swipeRight = useSpring({
+  //   transform: `translate(${endCoord.x + 9999}px, ${endCoord.y}px)`,
+  //   from: { transform: `translate(${endCoord.x}px, ${endCoord.y}px)` }
+  // });
 
-  const swipeLeft = useSpring({
-    transform: `translate(${endCoord.x - 9999}px, ${endCoord.y}px)`,
-    from: { transform: `translate(${endCoord.x}px, ${endCoord.y}px)` }
-  });
+  // const swipeLeft = useSpring({
+  //   transform: `translate(${endCoord.x - 9999}px, ${endCoord.y}px)`,
+  //   from: { transform: `translate(${endCoord.x}px, ${endCoord.y}px)` }
+  // });
 
   useEffect(() => {
     const element = document.querySelector(".swipe-card");
@@ -51,9 +51,9 @@ function SwipeCard({ name, onSwipeLeft, onSwipeRight }) {
   const handleActions = endCoords => {
     const deltaXPercent = ((coord.x + endCoords.x) / coord.x) * 100;
     if (deltaXPercent > 170) {
-      console.log("swipeRight");
+      onSwipeRight();
     } else if (deltaXPercent < 30) {
-      console.log("swipeLeft");
+      onSwipeLeft();
     }
   };
 

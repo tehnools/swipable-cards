@@ -6,4 +6,9 @@ React v16
 
 A react component that allows for swipable cards.
 
-Not Complete yet :D 
+##Features:
+
+_[x] Can Drag card
+_[x] Can Swipe Card
+_[x] Can Dispatch Given Actions
+_[] Animated to given direction
