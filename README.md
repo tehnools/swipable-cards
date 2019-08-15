@@ -8,7 +8,7 @@ A react component that allows for swipable cards.
 
 ##Features:
 
-_[x] Can Drag card
-_[x] Can Swipe Card
-_[x] Can Dispatch Given Actions
-_[] Animated to given direction
+*[x] Can Drag card
+*[x] Can Swipe Card
+*[x] Can Dispatch Given Actions
+*[] Animated to given direction
