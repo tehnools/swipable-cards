@@ -17,7 +17,7 @@ A react component that allows for swipable cards.
 ### Example Code 
 Example code using React-Redux...  
 
-```
+```javascript
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 
