@@ -7,16 +7,6 @@ function SwipeCard({ name, onSwipeLeft, onSwipeRight }) {
   const [poo, setPoo] = useState();
   const [endCoord, setEndCoord] = useState({ x: 0, y: 0 });
 
-  // const swipeRight = useSpring({
-  //   transform: `translate(${endCoord.x + 9999}px, ${endCoord.y}px)`,
-  //   from: { transform: `translate(${endCoord.x}px, ${endCoord.y}px)` }
-  // });
-
-  // const swipeLeft = useSpring({
-  //   transform: `translate(${endCoord.x - 9999}px, ${endCoord.y}px)`,
-  //   from: { transform: `translate(${endCoord.x}px, ${endCoord.y}px)` }
-  // });
-
   useEffect(() => {
     const element = document.querySelector(".swipe-card");
     const bodyRect = document.body.getBoundingClientRect();
@@ -26,9 +16,10 @@ function SwipeCard({ name, onSwipeLeft, onSwipeRight }) {
       const offsetX = elemRect.left - bodyRect.left;
       setCoord({ x: offsetX, y: offsetY });
     }
-  }, []);
+  },[]);
 
   const handleDragStart = e => {
+    e.dataTransfer.setData('text',''); 
     const deltaX = e.clientX - coord.x;
     const deltaY = e.clientY - coord.y;
     setPoo({ x: deltaX, y: deltaY });
