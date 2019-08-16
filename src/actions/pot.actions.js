@@ -4,12 +4,16 @@ export const GET_POTS_ERROR = "GET_POTS_ERROR";
 
 const cards = [
   {
+    id: 1,
     name: "Constance"
   },
   {
+    id: 2,
+
     name: "yeet"
   },
   {
+    id: 3,
     name: "Trinity"
   }
 ];

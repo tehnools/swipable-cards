@@ -3,30 +3,30 @@ export const SWIPE_LEFT = "SWIPE_LEFT";
 export const SWIPE_UP = "SWIPE_UP";
 export const SWIPE_DOWN = "SWIPE_DOWN";
 
-export function swipeLeft(cards) {
+export function swipeLeft(id) {
   return {
     type: SWIPE_LEFT,
-    cards
+    id
   };
 }
 
-export function swipeRight(cards) {
+export function swipeRight(id) {
   return {
     type: SWIPE_RIGHT,
-    cards
+    id
   };
 }
 
-export function swipeUp(cards) {
+export function swipeUp(id) {
   return {
     type: SWIPE_UP,
-    cards
+    id
   };
 }
 
-export function swipeDown(cards) {
+export function swipeDown(id) {
   return {
     type: SWIPE_DOWN,
-    cards
+    id
   };
 }
