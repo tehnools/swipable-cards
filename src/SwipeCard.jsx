@@ -6,10 +6,14 @@ function SwipeCard({ name, onSwipeLeft, onSwipeRight }) {
   const [coord, setCoord] = useState({});
   const [poo, setPoo] = useState();
   const [endCoord, setEndCoord] = useState({ x: 0, y: 0 });
+  const [dragImage, setDrag] = useState(null)
 
   useEffect(() => {
     const element = document.querySelector(".swipe-card");
     const bodyRect = document.body.getBoundingClientRect();
+    const transparentImage = new Image(0,0)
+    transparentImage.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'
+    setDrag(transparentImage)
     if (element) {
       const elemRect = element.getBoundingClientRect();
       const offsetY = elemRect.top - bodyRect.top;
@@ -19,7 +23,8 @@ function SwipeCard({ name, onSwipeLeft, onSwipeRight }) {
   },[]);
 
   const handleDragStart = e => {
-    e.dataTransfer.setData('text',''); 
+    e.dataTransfer.setData('text','');
+    e.dataTransfer.setDragImage(dragImage, 0, 0);
     const deltaX = e.clientX - coord.x;
     const deltaY = e.clientY - coord.y;
     setPoo({ x: deltaX, y: deltaY });
