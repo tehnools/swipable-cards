@@ -90,21 +90,21 @@ function SwipeCard ({ children, as, onSwipeLeft, onSwipeRight, onSwipeUp, onSwip
     }
   }
 
+  const props = {
+    className: className + ' ' + swipableCard,
+    as: as,
+    children: children,
+    draggable: true,
+    onDrag: handleDrag,
+    onDragEnd: handleDragEnd,
+    onDragStart: handleDragStart,
+    onTouchStart: handleTouchStart,
+    onTouchMove: handleTouchMove,
+    onTouchEnd: handleTouchEnd
+  }
+
   return (
-    <animated.div
-      className={className + ' ' + swipableCard}
-      as={as}
-      draggable="true"
-      style={swipeAnimation}
-      onDrag={handleDrag}
-      onDragEnd={handleDragEnd}
-      onDragStart={handleDragStart}
-      onTouchStart={handleTouchStart}
-      onTouchMove={handleTouchMove}
-      onTouchEnd={handleTouchEnd}
-    >
-      {children}
-    </animated.div>
+    <animated.div {...props}/>
   )
 }
 
