@@ -23,7 +23,7 @@ Example code using React-Redux...
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 
-import {SwipeCard, SwipeCards} from "@tehnools/swipable-cards";
+import { SwipeCard, SwipeCards } from "@tehnools/swipable-cards";
 import { swipeLeft, swipeRight } from "./actions/swipe.actions";
 import { getCardsSuccess } from "./actions/pot.actions";
 
