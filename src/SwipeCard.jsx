@@ -1,69 +1,105 @@
-import React, { useState, useEffect } from "react";
-import { Card } from "semantic-ui-react";
-import { animated } from "react-spring";
+import React, { useState, useEffect } from 'react'
+import { animated, useSpring } from 'react-spring'
+import PropTypes from 'prop-types'
+// const config = {tension: 170, friction: 26}
+const transparentImage = new Image(0, 0)
+transparentImage.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'
 
-function SwipeCard({ children, as, onSwipeLeft, onSwipeRight, onSwipeUp, onSwipeDown, className }) {
-  const [coord, setCoord] = useState({});
-  const [poo, setPoo] = useState();
-  const [endCoord, setEndCoord] = useState({ x: 0, y: 0 });
+function SwipeCard ({ children, as, onSwipeLeft, onSwipeRight, onSwipeUp, onSwipeDown, className }) {
+  const [coord, setCoord] = useState({})
+  const [poo, setPoo] = useState()
   const [dragImage, setDrag] = useState(null)
 
+  const [swipeAnimation, setSwipeAnimation] = useSpring(
+    () => ({
+      duration: 500
+    }))
+
   useEffect(() => {
-    const element = document.querySelector(".swipe-card");
-    const bodyRect = document.body.getBoundingClientRect();
-    const transparentImage = new Image(0,0)
-    transparentImage.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'
+    const element = document.querySelector('.swipe-card')
+    const bodyRect = document.body.getBoundingClientRect()
+    const elemRect = element.getBoundingClientRect()
+
+    setCoord({
+      x: elemRect.left - bodyRect.left,
+      y: elemRect.top - bodyRect.top
+    })
     setDrag(transparentImage)
-    if (element) {
-      const elemRect = element.getBoundingClientRect();
-      const offsetY = elemRect.top - bodyRect.top;
-      const offsetX = elemRect.left - bodyRect.left;
-      setCoord({ x: offsetX, y: offsetY });
-    }
-  },[]);
+  }, [])
+
+  const calcDelta = (e, p) => p
+    ? [e.clientX - coord.x - p.x, e.clientY - coord.y - p.y]
+    : [e.clientX - coord.x, e.clientY - coord.y]
+
+  const handleTouchStart = e => {
+    const [deltaX, deltaY] = calcDelta(e)
+    setPoo({ x: deltaX, y: deltaY })
+  }
 
   const handleDragStart = e => {
-    e.dataTransfer.setData('text','');
-    e.dataTransfer.setDragImage(dragImage, 0, 0);
-    const deltaX = e.clientX - coord.x;
-    const deltaY = e.clientY - coord.y;
-    setPoo({ x: deltaX, y: deltaY });
-  };
+    e.dataTransfer.setData('text', '')
+    e.dataTransfer.setDragImage(dragImage, 0, 0)
+    const [deltaX, deltaY] = calcDelta(e)
+    setPoo({ x: deltaX, y: deltaY })
+  }
 
   const handleDrag = e => {
-    const deltaX = e.clientX - poo.x - coord.x;
-    const deltaY = e.clientY - poo.y - coord.y;
-    e.target.style.transform = `translate(${deltaX}px,${deltaY}px)`;
-  };
+    const [deltaX, deltaY] = calcDelta(e, poo)
+    e.target.style.transform = `translate(${deltaX}px,${deltaY}px)`
+  }
 
   const handleDragEnd = e => {
-    const deltaX = e.clientX - poo.x - coord.x;
-    const deltaY = e.clientY - poo.y - coord.y;
-    setEndCoord({ x: deltaX, y: deltaY });
-    handleActions({ x: deltaX, y: deltaY });
-    e.target.style.transform = `translate(0px,0px)`;
-  };
+    const [deltaX, deltaY] = calcDelta(e, poo)
+    e.target.style.transform = 'translate(0px,0px)'
+    handleActions({ x: deltaX, y: deltaY })
+  }
 
   const handleActions = endCoords => {
-    const deltaXPercent = ((coord.x + endCoords.x) / coord.x) * 100;
-    if (deltaXPercent > 170) {
-      onSwipeRight();
-    } else if (deltaXPercent < 30) {
-      onSwipeLeft();
+    const deltaXPercent = endCoords.x / 330 * 100
+    console.log('Swipe Diff Percentage', deltaXPercent)
+    if (deltaXPercent > 50) {
+      console.log('swipeRight')
+      setSwipeAnimation({
+        from: { transform: `translate(${endCoords.x}px,${endCoords.y}px)` },
+        to: { transform: `translate(999px, ${endCoords.y}px)` }
+      })
+      onSwipeRight()
+    } else if (deltaXPercent < -50) {
+      console.log('swipeLeft')
+      onSwipeLeft()
     }
-  };
+  }
+
+  const handleTouchCapture = e => {
+    const [deltaX, deltaY] = calcDelta(e, poo)
+    e.target.style.transform = `translate(${deltaX}px,${deltaY}px)`
+  }
 
   return (
     <animated.div
-      className="ui card swipe-card"
+      className={className}
       draggable="true"
+      style={swipeAnimation}
       onDrag={handleDrag}
       onDragEnd={handleDragEnd}
       onDragStart={handleDragStart}
+      onTouchStart={handleTouchStart}
+      onTouchMoveCapture={handleTouchCapture}
     >
       {children}
     </animated.div>
-  );
+  )
 }
 
-export default SwipeCard;
+SwipeCard.propTypes =
+  {
+    children: PropTypes.node,
+    as: PropTypes.func,
+    onSwipeLeft: PropTypes.func,
+    onSwipeRight: PropTypes.func,
+    onSwipeUp: PropTypes.func,
+    onSwipeDown: PropTypes.func,
+    className: PropTypes.string
+  }
+
+export default SwipeCard
