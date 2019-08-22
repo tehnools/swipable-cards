@@ -1,7 +1,13 @@
-import React from "react";
+import React from 'react'
+import PropTypes from 'prop-types'
 
-function SwipeCards({ children, onEnd }) {
-  return <>{children ? children : onEnd()}</>;
+function SwipeCards ({ children, onEnd }) {
+  return <>{children || onEnd()}</>
 }
 
-export default SwipeCards;
+SwipeCards.propTypes = {
+  children: PropTypes.node.isRequired,
+  onEnd: PropTypes.func
+}
+
+export default SwipeCards
