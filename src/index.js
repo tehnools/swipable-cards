@@ -1,10 +1,10 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import { Provider } from "react-redux";
-import thunk from 'redux-thunk';
-import { createStore, applyMiddleware, compose } from "redux";
-import "./styles.css";
-import rootReducer from "./reducers/index";
+import React from 'react'
+import ReactDOM from 'react-dom'
+import { Provider } from 'react-redux'
+import thunk from 'redux-thunk'
+import { createStore, applyMiddleware, compose } from 'redux'
+import './styles.css'
+import rootReducer from './reducers/index'
 import Pot from './Pot'
 
 const store = createStore(
@@ -15,15 +15,15 @@ const store = createStore(
     window.__REDUX_DEVTOOLS_EXTENSION__ ? window.__REDUX_DEVTOOLS_EXTENSION__() : f => f
   ))
 
-function App() {
+function App () {
   return (
     <Provider store={store}>
       <div className="App">
         <Pot />
       </div>
     </Provider>
-  );
+  )
 }
 
-const rootElement = document.getElementById("root");
-ReactDOM.render(<App />, rootElement);
+const rootElement = document.getElementById('root')
+ReactDOM.render(<App />, rootElement)
