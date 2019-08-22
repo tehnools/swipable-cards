@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react'
 import { animated, useSpring } from 'react-spring'
 import PropTypes from 'prop-types'
-// const config = {tension: 170, friction: 26}
+
 const transparentImage = new Image(0, 0)
 transparentImage.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'
+const defaultOrigin = 'translate(0px,0px)'
+const swipableCard = 'swipableCard'
 
 function SwipeCard ({ children, as, onSwipeLeft, onSwipeRight, onSwipeUp, onSwipeDown, className }) {
   const [coord, setCoord] = useState({})
   const [poo, setPoo] = useState()
   const [dragImage, setDrag] = useState(null)
-
   const [swipeAnimation, setSwipeAnimation] = useSpring(
     () => ({
       duration: 500
@@ -19,7 +20,6 @@ function SwipeCard ({ children, as, onSwipeLeft, onSwipeRight, onSwipeUp, onSwip
     const element = document.querySelector('.swipe-card')
     const bodyRect = document.body.getBoundingClientRect()
     const elemRect = element.getBoundingClientRect()
-
     setCoord({
       x: elemRect.left - bodyRect.left,
       y: elemRect.top - bodyRect.top
@@ -27,64 +27,81 @@ function SwipeCard ({ children, as, onSwipeLeft, onSwipeRight, onSwipeUp, onSwip
     setDrag(transparentImage)
   }, [])
 
-  const calcDelta = (e, p) => p
-    ? [e.clientX - coord.x - p.x, e.clientY - coord.y - p.y]
-    : [e.clientX - coord.x, e.clientY - coord.y]
+  const calcDelta = (x, y, p) => p
+    ? [x - coord.x - p.x, y - coord.y - p.y]
+    : [x - coord.x, y - coord.y]
 
   const handleTouchStart = e => {
-    const [deltaX, deltaY] = calcDelta(e)
-    setPoo({ x: deltaX, y: deltaY })
+    const touchLocation = e.targetTouches[0]
+    setPoo({ x: touchLocation.pageX, y: touchLocation.pageY })
   }
 
   const handleDragStart = e => {
     e.dataTransfer.setData('text', '')
     e.dataTransfer.setDragImage(dragImage, 0, 0)
-    const [deltaX, deltaY] = calcDelta(e)
+    const [deltaX, deltaY] = calcDelta(e.clientX, e.clientY)
     setPoo({ x: deltaX, y: deltaY })
   }
 
   const handleDrag = e => {
-    const [deltaX, deltaY] = calcDelta(e, poo)
+    const [deltaX, deltaY] = calcDelta(e.clientX, e.clientY, poo)
     e.target.style.transform = `translate(${deltaX}px,${deltaY}px)`
   }
 
+  const handleTouchMove = e => {
+    const isSwipable = e.target.classList.contains(swipableCard)
+    if (isSwipable) {
+      const touchLocation = e.targetTouches[0]
+      const [deltaX, deltaY] = calcDelta(
+        touchLocation.pageX,
+        touchLocation.pageY,
+        poo)
+      e.target.style.transform = `translate(${deltaX}px,${deltaY}px)`
+    }
+  }
+
   const handleDragEnd = e => {
-    const [deltaX, deltaY] = calcDelta(e, poo)
-    e.target.style.transform = 'translate(0px,0px)'
+    const [deltaX, deltaY] = calcDelta(e.clientX, e.clientY, poo)
+    e.target.style.transform = defaultOrigin
+    handleActions({ x: deltaX, y: deltaY })
+  }
+
+  const handleTouchEnd = e => {
+    const [deltaX, deltaY] = calcDelta(
+      e.changedTouches[0].clientX,
+      e.changedTouches[0].clientY,
+      poo)
+    e.target.style.transform = defaultOrigin
     handleActions({ x: deltaX, y: deltaY })
   }
 
   const handleActions = endCoords => {
     const deltaXPercent = endCoords.x / 330 * 100
-    console.log('Swipe Diff Percentage', deltaXPercent)
     if (deltaXPercent > 50) {
-      console.log('swipeRight')
       setSwipeAnimation({
         from: { transform: `translate(${endCoords.x}px,${endCoords.y}px)` },
         to: { transform: `translate(999px, ${endCoords.y}px)` }
       })
+      console.log('swipeRight')
       onSwipeRight()
     } else if (deltaXPercent < -50) {
-      console.log('swipeLeft')
       onSwipeLeft()
+      console.log('swipel eft')
     }
-  }
-
-  const handleTouchCapture = e => {
-    const [deltaX, deltaY] = calcDelta(e, poo)
-    e.target.style.transform = `translate(${deltaX}px,${deltaY}px)`
   }
 
   return (
     <animated.div
-      className={className}
+      className={className + ' ' + swipableCard}
+      as={as}
       draggable="true"
       style={swipeAnimation}
       onDrag={handleDrag}
       onDragEnd={handleDragEnd}
       onDragStart={handleDragStart}
       onTouchStart={handleTouchStart}
-      onTouchMoveCapture={handleTouchCapture}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
     >
       {children}
     </animated.div>
