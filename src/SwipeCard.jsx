@@ -11,10 +11,6 @@ function SwipeCard ({ children, as, onSwipeLeft, onSwipeRight, onSwipeUp, onSwip
   const [coord, setCoord] = useState({})
   const [poo, setPoo] = useState()
   const [dragImage, setDrag] = useState(null)
-  const [swipeAnimation, setSwipeAnimation] = useSpring(
-    () => ({
-      duration: 500
-    }))
 
   useEffect(() => {
     const element = document.querySelector('.swipe-card')
@@ -27,13 +23,14 @@ function SwipeCard ({ children, as, onSwipeLeft, onSwipeRight, onSwipeUp, onSwip
     setDrag(transparentImage)
   }, [])
 
-  const calcDelta = (x, y, p) => p
-    ? [x - coord.x - p.x, y - coord.y - p.y]
-    : [x - coord.x, y - coord.y]
+  const calcDelta = (x, y, p) => p ? [x - coord.x - p.x, y - coord.y - p.y] : [x - coord.x, y - coord.y]
 
   const handleTouchStart = e => {
     const touchLocation = e.targetTouches[0]
-    setPoo({ x: touchLocation.pageX, y: touchLocation.pageY })
+    setPoo({
+      x: touchLocation.clientX,
+      y: touchLocation.clientY
+    })
   }
 
   const handleDragStart = e => {
@@ -53,8 +50,8 @@ function SwipeCard ({ children, as, onSwipeLeft, onSwipeRight, onSwipeUp, onSwip
     if (isSwipable) {
       const touchLocation = e.targetTouches[0]
       const [deltaX, deltaY] = calcDelta(
-        touchLocation.pageX,
-        touchLocation.pageY,
+        touchLocation.clientX,
+        touchLocation.clientY,
         poo)
       e.target.style.transform = `translate(${deltaX}px,${deltaY}px)`
     }
@@ -78,15 +75,9 @@ function SwipeCard ({ children, as, onSwipeLeft, onSwipeRight, onSwipeUp, onSwip
   const handleActions = endCoords => {
     const deltaXPercent = endCoords.x / 330 * 100
     if (deltaXPercent > 50) {
-      setSwipeAnimation({
-        from: { transform: `translate(${endCoords.x}px,${endCoords.y}px)` },
-        to: { transform: `translate(999px, ${endCoords.y}px)` }
-      })
-      console.log('swipeRight')
       onSwipeRight()
     } else if (deltaXPercent < -50) {
       onSwipeLeft()
-      console.log('swipel eft')
     }
   }
 
