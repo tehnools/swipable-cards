@@ -1,37 +1,5 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
-import { Provider } from 'react-redux'
-import thunk from 'redux-thunk'
-import { createStore, applyMiddleware, compose } from 'redux'
-import './styles.css'
-import rootReducer from './reducers/index'
-import Pot from './Pot'
-
-import SwipeCard from './SwipeCard'
-import SwipeCards from './SwipeCards'
 
 module.exports = {
-  SwipeCard,
-  SwipeCards
+  SwipeCard: require('./SwipeCard'),
+  SwipeCards: require('./SwipeCards')
 }
-
-const store = createStore(
-  rootReducer,
-  {},
-  compose(
-    applyMiddleware(thunk),
-    window.__REDUX_DEVTOOLS_EXTENSION__ ? window.__REDUX_DEVTOOLS_EXTENSION__() : f => f
-  ))
-
-function App () {
-  return (
-    <Provider store={store}>
-      <div className="App">
-        <Pot />
-      </div>
-    </Provider>
-  )
-}
-
-const rootElement = document.getElementById('root')
-ReactDOM.render(<App />, rootElement)
