@@ -7,6 +7,14 @@ import './styles.css'
 import rootReducer from './reducers/index'
 import Pot from './Pot'
 
+import SwipeCard from './SwipeCard'
+import SwipeCards from './SwipeCards'
+
+module.exports = {
+  SwipeCard,
+  SwipeCards
+}
+
 const store = createStore(
   rootReducer,
   {},
