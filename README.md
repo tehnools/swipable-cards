@@ -11,7 +11,7 @@ A react component that allows for swipable cards.
 * [x] Can Drag card  
 * [x] Can Swipe Card  
 * [x] Can Dispatch Given Actions  
-* [] Animated to given direction  
+* [ ] Animated to given direction  
 
 ### Demo
 Link to (Demo)[https://codesandbox.io/s/github/tehnools/swipable-cards/tree/master/?fontsize=14&view=preview]
@@ -23,8 +23,7 @@ Example code using React-Redux...
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 
-import SwipeCard from "./SwipeCard";
-import SwipeCards from "./SwipeCards";
+import {SwipeCard, SwipeCards} from "@tehnools/swipable-cards";
 import { swipeLeft, swipeRight } from "./actions/swipe.actions";
 import { getCardsSuccess } from "./actions/pot.actions";
 
@@ -36,7 +35,7 @@ const Pot = () => {
     dispatch(getCardsSuccess());
   },[]);
 
-  return (
+ return (
     <div className="pot">
       <SwipeCards onEnd={displayEmpty}>
         {cards &&
@@ -45,13 +44,18 @@ const Pot = () => {
             <SwipeCard
               key={index}
               name={card.name}
+              className={'ui card swipe-card'}
               onSwipeLeft={() => dispatch(swipeLeft(card.id))}
               onSwipeRight={() => dispatch(swipeRight(card.id))}
-            />
+            >
+              <Card.Header>
+                <h1>{card.name}</h1>
+              </Card.Header>
+            </SwipeCard>
           ))}
       </SwipeCards>
     </div>
-  );
+  )
 }
 
 export default Pot
