@@ -13,6 +13,8 @@ A react component that allows for swipable cards.
 * [x] Can Dispatch Given Actions  
 * [] Animated to given direction  
 
+### Demo
+Link to (Demo)[https://codesandbox.io/s/github/tehnools/swipable-cards/tree/master/?fontsize=14&view=preview]
 
 ### Example Code 
 Example code using React-Redux...  
