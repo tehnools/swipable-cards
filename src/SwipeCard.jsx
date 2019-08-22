@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Card } from "semantic-ui-react";
 import { animated } from "react-spring";
 
-function SwipeCard({ name, onSwipeLeft, onSwipeRight }) {
+function SwipeCard({ children, as, onSwipeLeft, onSwipeRight, onSwipeUp, onSwipeDown, className }) {
   const [coord, setCoord] = useState({});
   const [poo, setPoo] = useState();
   const [endCoord, setEndCoord] = useState({ x: 0, y: 0 });
@@ -61,9 +61,7 @@ function SwipeCard({ name, onSwipeLeft, onSwipeRight }) {
       onDragEnd={handleDragEnd}
       onDragStart={handleDragStart}
     >
-      <Card.Header>
-        <h1>{name}</h1>
-      </Card.Header>
+      {children}
     </animated.div>
   );
 }

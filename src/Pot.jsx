@@ -1,6 +1,7 @@
 
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
+import { Card } from "semantic-ui-react";
 
 import SwipeCard from "./SwipeCard";
 import SwipeCards from "./SwipeCards";
@@ -24,9 +25,14 @@ const Pot = () => {
             <SwipeCard
               key={index}
               name={card.name}
+              className={"ui card swipe-card"}
               onSwipeLeft={() => dispatch(swipeLeft(card.id))}
               onSwipeRight={() => dispatch(swipeRight(card.id))}
-            />
+            >
+            <Card.Header>
+              <h1>{card.name}</h1>
+            </Card.Header>
+            </SwipeCard>
           ))}
       </SwipeCards>
     </div>
