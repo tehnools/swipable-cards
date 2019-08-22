@@ -14,6 +14,7 @@ const Pot = () => {
   const displayEmpty = () => <p>Sorry no more cards</p>
   useEffect(() => {
     dispatch(getCardsSuccess())
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
