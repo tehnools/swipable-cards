@@ -7,11 +7,6 @@ import './styles.css'
 import rootReducer from './reducers/index'
 import Pot from './Pot'
 
-module.exports = {
-  SwipeCard: require('./SwipeCard'),
-  SwipeCards: require('./SwipeCards')
-}
-
 const store = createStore(
   rootReducer,
   {},
