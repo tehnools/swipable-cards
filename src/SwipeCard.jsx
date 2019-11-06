@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { animated, useSpring } from 'react-spring'
+import { animated } from 'react-spring'
 import PropTypes from 'prop-types'
 
 const transparentImage = new Image(0, 0)
